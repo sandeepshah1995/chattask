@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    ports:
+      - "27017:27017"
+  backendservice:
+    build: ./backend
+    env_file: ./backend/.env
+    ports:
+      - "80:80"
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    environment:
+      REACT_APP_SERVER_URL: http://localhost:80
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backendservice
+    networks:
+      - app-network
+
+networks:
+  app-network:
+      driver: bridge
+
+volumes:
+  data:
+  logs:
