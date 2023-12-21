@@ -45,7 +45,15 @@ function Login() {
     if (formData.email.includes("@") && formData.password.length > 6) {
       setIsLoading(true)
       console.log("formData here",formData);
-      const { data } = await loginUser(formData)
+      let data = {};
+      try{
+        data = await loginUser(formData);
+        data = data.data
+        console.log(await loginUser(formData));
+      }catch (error) {
+        console.log(await loginUser(formData), "error", error);
+        toast.error("Invalid Credentials!")
+      }
       console.log(await loginUser(formData));
       if (data?.token) {
         localStorage.setItem("userToken", data.token)

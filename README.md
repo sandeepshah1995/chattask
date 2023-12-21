@@ -22,10 +22,16 @@ This is a real-time chat website that allows users to connect with each other an
 - Responsive design: the website is optimized for different screen sizes and devices
 
 ## Configuration and Setup
+Before running the project make .env file in backend folder
+REACT_APP_SERVER_URL = 'http://localhost:80' \
+make .env file in frontend folder \
+SECRET = 'variationsofloremipsumavailable'\
+URL = 'mongodb://mongodb:27017/chat'\
+BASE_URL='http://localhost:3000' \
 In order to run this project with docker just run the following command
 
 ```
 $ docker-compose up
 ```
 
-and then type locathost:3000 in browser to run it
+and then type http://localhost:3000 in browser to run it

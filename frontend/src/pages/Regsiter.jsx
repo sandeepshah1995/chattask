@@ -28,14 +28,19 @@ function Regsiter() {
     e.preventDefault()
     setIsLoading(true)
     if (formData.email.includes("@") && formData.password.length > 6) {
-      const { data } = await registerUser(formData)
-      console.log(await registerUser(formData))
+      let data = {};
+      try {
+        data= await registerUser(formData);
+        data = data.data
+      } catch(error){
+        console.log(await registerUser(formData), "error", error);
+        toast.error("Invalid Credentials!")
+      }
       if (data?.token) {
         localStorage.setItem("userToken", data)
         toast.success("Succesfully Registered😍")
         setIsLoading(false)
         pageRoute("/chats")
-
       }
       else {
         setIsLoading(false)
