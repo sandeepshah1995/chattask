@@ -37,7 +37,7 @@ function Regsiter() {
         toast.error("Invalid Credentials!")
       }
       if (data?.token) {
-        localStorage.setItem("userToken", data)
+        localStorage.setItem("userToken", data.token)
         toast.success("Succesfully Registered😍")
         setIsLoading(false)
         pageRoute("/chats")
