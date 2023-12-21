@@ -33,7 +33,33 @@ const io = new Server.Server(server, {
     origin: process.env.BASE_URL,
   },
 });
+
+var users = [];
+var onlineusers = [];
 io.on('connection', (socket) => {
+  socket.on('login', function({userId}){
+    console.log('a user ' + userId + ' connected');
+    // saving userId to object with socket ID
+    users[socket.id] = userId;
+    if(!onlineusers.includes(userId))
+      onlineusers = [...onlineusers, userId]
+    io.emit('onlineUser', userId);
+    io.emit('onlineusers', onlineusers);
+    console.log('onlineusers',onlineusers);
+  });
+  console.log("users", users);
+  console.log('onlineusers',onlineusers);
+
+  socket.on('disconnect', function(){
+    console.log('user ' + users[socket.id] + ' disconnected');
+    // remove saved socket from users object
+    io.emit('offlineUser', users[socket.id]);
+    onlineusers = onlineusers.filter((data) => data != users[socket.id])
+    console.log('onlineusers',onlineusers);
+    io.emit('onlineusers', onlineusers)
+    delete users[socket.id];
+  });
+
   socket.on('setup', (userData) => {
     socket.join(userData.id);
     socket.emit('connected');

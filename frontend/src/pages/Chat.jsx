@@ -28,6 +28,7 @@ function Chat(props) {
   const [loading, setLoading] = useState(false)
   const [showPicker, setShowPicker] = useState(false);
   const activeUser = useSelector((state) => state.activeUser)
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   const keyDownFunction = async (e) => {
     if ((e.key === "Enter" || e.type === "click") && (message)) {
@@ -52,7 +53,26 @@ function Chat(props) {
     socket.on("connected", () => {
       setSocketConnected(true)
     })
-  }, [messages, activeUser])
+  }, [messages, activeUser]);
+
+  useEffect(() => {
+    socket.emit('login',{userId:activeUser.id});
+    socket.on('onlineusers', (data) => {
+        console.log("received data online user", data);
+        setOnlineUsers(data);
+    });
+    // socket.on('onlineUser', (data) => {
+    //   console.log("received data online user", data);
+    //   setOnlineUsers([...onlineUsers, data]);
+    // });
+    // console.log('onlineUsers', onlineUsers);
+    // socket.on('offlineUser', (data) => {
+    //   console.log("received data offline user", data);
+    //   setOnlineUsers(onlineUsers => onlineUsers.filter(user => user !== data));
+    // });
+    // console.log('activeUser._id', activeUser);
+  }, [activeChat]);
+
   useEffect(() => {
     const fetchMessagesFunc = async () => {
       if (activeChat) {
@@ -92,6 +112,7 @@ function Chat(props) {
     }
     isValid()
   }, [])
+  console.log('active onlineUsersusers',activeUser, onlineUsers, activeChat);
   if (loading) {
     return <div className={props.className}>
       <Loading />
@@ -109,7 +130,7 @@ function Chat(props) {
                   {/* <p className='text-[11px] text-[#aabac8]'>Last seen 5 min ago</p> */}
                 </div>
               </div>
-              <div>
+              <div>{onlineUsers.includes(activeChat.users[0]._id) ? 'Online' : 'Offline'}
                 <Model />
               </div>
             </div>

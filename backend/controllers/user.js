@@ -120,9 +120,17 @@ export const getUserById = async (req, res) => {
     res.status(500).json({ error: error });
   }
 };
+
 export const updateInfo = async (req, res) => {
   const { id } = req.params;
   const { bio, name } = req.body;
   const updatedUser = await user.findByIdAndUpdate(id, { name, bio });
+  return updatedUser;
+};
+
+export const updateBio = async (req, res) => {
+  const { id } = req.params;
+  const { bio } = req.body;
+  const updatedUser = await user.findByIdAndUpdate(id, { bio });
   return updatedUser;
 };

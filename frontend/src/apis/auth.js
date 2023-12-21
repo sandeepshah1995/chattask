@@ -68,6 +68,18 @@ export const updateUser = async (id, body) => {
   }
 };
 
+export const updatebio = async (id, body) => {
+  try {
+    const token = localStorage.getItem('userToken');
+
+    const { data } = await API(token).patch(`/api/userbio/${id}`, body);
+    return data;
+  } catch (error) {
+    console.log('error in update user api', error);
+    toast.error('Something Went Wrong.try Again!');
+  }
+};
+
 export const checkValid = async () => {
   const data = await validUser();
   if (!data?.user) {

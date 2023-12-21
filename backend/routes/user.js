@@ -7,6 +7,7 @@ import {
   logout,
   searchUsers,
   updateInfo,
+  updateBio,
   getUserById,
 } from '../controllers/user.js';
 import { Auth } from '../middleware/user.js';
@@ -19,4 +20,5 @@ router.get('/auth/logout', Auth, logout);
 router.get('/api/user?', Auth, searchUsers);
 router.get('/api/users/:id', Auth, getUserById);
 router.patch('/api/users/update/:id', Auth, updateInfo);
+router.patch('/api/userbio/:id', Auth, updateBio);
 export default router;
