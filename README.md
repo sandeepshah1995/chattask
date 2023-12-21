@@ -24,11 +24,11 @@ This is a real-time chat website that allows users to connect with each other an
 ## Configuration and Setup
 Before running the project make
 
-.env file in frontend folder 
+<b>.env</b> file in frontend folder 
 ```
 REACT_APP_SERVER_URL = 'http://localhost:80' 
 ```
-.env file in backend folder
+<b>.env</b> file in backend folder
 ```
 SECRET = 'variationsofloremipsumavailable'
 URL = 'mongodb://mongodb:27017/chat'
